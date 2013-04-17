@@ -44,37 +44,37 @@
     if (!self.text)
         return;
     
-	// create a font
+    // create a font
     
-	CTFontRef sysUIFont = CTFontCreateUIFontForLanguage(kCTFontSystemFontType, self.fontSize, NULL);
+    CTFontRef sysUIFont = CTFontCreateUIFontForLanguage(kCTFontSystemFontType, self.fontSize, NULL);
     
-	// create attributes dictionary
+    // create attributes dictionary
     
-	NSDictionary *attributes = @{
-                              (__bridge id)kCTFontAttributeName            : (__bridge id)sysUIFont,
-                              (__bridge id)kCTForegroundColorAttributeName : (__bridge id)[self.fillColor CGColor],
-                              (__bridge id)kCTStrokeColorAttributeName     : (__bridge id)[self.borderColor CGColor],
-                              (__bridge id)kCTStrokeWidthAttributeName     : @(-3)
-                              };
+    NSDictionary *attributes = @{
+                                 (__bridge id)kCTFontAttributeName            : (__bridge id)sysUIFont,
+                                 (__bridge id)kCTForegroundColorAttributeName : (__bridge id)[self.fillColor CGColor],
+                                 (__bridge id)kCTStrokeColorAttributeName     : (__bridge id)[self.borderColor CGColor],
+                                 (__bridge id)kCTStrokeWidthAttributeName     : @(-3)
+                                 };
     
-	// make the attributed string
-
-	NSAttributedString *stringToDraw = [[NSAttributedString alloc] initWithString:self.text
+    // make the attributed string
+    
+    NSAttributedString *stringToDraw = [[NSAttributedString alloc] initWithString:self.text
                                                                        attributes:attributes];
     
     // begin drawing
-	
+    
     CGContextRef context = UIGraphicsGetCurrentContext();
     
-	// flip the coordinate system
-	
+    // flip the coordinate system
+    
     CGContextSetTextMatrix(context, CGAffineTransformIdentity);
-	CGContextTranslateCTM(context, 0, self.bounds.size.height);
-	CGContextScaleCTM(context, 1.0, -1.0);
+    CGContextTranslateCTM(context, 0, self.bounds.size.height);
+    CGContextScaleCTM(context, 1.0, -1.0);
     
-	// create CTLineRef
+    // create CTLineRef
     
-	CTLineRef line = CTLineCreateWithAttributedString((__bridge CFAttributedStringRef)stringToDraw);
+    CTLineRef line = CTLineCreateWithAttributedString((__bridge CFAttributedStringRef)stringToDraw);
     
     // figure out the size (which we'll use to center it)
     
@@ -83,18 +83,18 @@
     CGFloat width = CTLineGetTypographicBounds(line, &ascent, &descent, NULL);
     CGFloat height = ascent + descent;
     CGSize stringSize = CGSizeMake(width, height);
-
+    
     // draw it
     
-	CGContextSetTextPosition(context,
+    CGContextSetTextPosition(context,
                              (self.bounds.size.width  - stringSize.width)  / 2.0,
                              (self.bounds.size.height - stringSize.height + descent) / 2.0);
-	CTLineDraw(line, context);
+    CTLineDraw(line, context);
     
-	// clean up
+    // clean up
     
-	CFRelease(line);
-	CFRelease(sysUIFont);
+    CFRelease(line);
+    CFRelease(sysUIFont);
 }
 
 #pragma mark - custom setters
@@ -185,7 +185,7 @@
 - (void)handlePinch:(UIPinchGestureRecognizer *)gesture
 {
     CGFloat scale = [gesture scale];
-
+    
     if (gesture.state == UIGestureRecognizerStateChanged)
     {
         [self setTransformUsingScale:scale angle:self.angle translate:CGPointZero];
